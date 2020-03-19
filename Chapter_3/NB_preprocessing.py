@@ -31,7 +31,32 @@ class preprocessing():
         self.data = vec_list
         return vec_list
 
+    def vectorize_test(self,data):
+        hor_lim = len(self.vocab)
+        encoded = np.zeros(shape=(1,hor_lim))
+        for index in range(hor_lim):
+            for index_l in range(len(data)):
+                if(self.vocab[index]==data[index_l]):
+                    encoded[:,index]+=1
+        return encoded
 
+vec_test = ['quit', 'buying', 'worthless', 'dog', 'food', 'stupid']
+postingList=[['my', 'dog', 'has', 'flea', \
+    'problems', 'help', 'please'],
+    ['maybe', 'not', 'take', 'him', \
+    'to', 'dog', 'park', 'stupid'],
+    ['my', 'dalmation', 'is', 'so', 'cute', \
+    'I', 'love', 'him'],
+    ['stop', 'posting', 'stupid', 'worthless', 'garbage'],
+    ['mr', 'licks', 'ate', 'my', 'steak', 'how',\
+    'to', 'stop', 'him'],
+    ['quit', 'buying', 'worthless', 'dog', 'food', 'stupid']]
+classVec = [0,1,0,1,0,1]
+
+prep = preprocessing()
+prep.fit(postingList,classVec)
+prep.create_vocab()
+print(prep.vectorize_test(vec_test))
 
 
 
