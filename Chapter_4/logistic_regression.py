@@ -11,10 +11,12 @@ class LogReg:
     def fit(self,data,labels):
         self.data = data
         self.labels = labels
+        bias = np.ones(shape=(self.data.shape[0], 1))
+        self.data = np.append(self.data, bias, axis=1)
 
     def train(self,epochs):
-        bias = np.ones(shape=(self.data.shape[0],1))
-        self.data = np.append(self.data,bias,axis=1)
+
+
         num_vars = len(self.data[0])
 
         self.weights = np.ones(shape=(1,num_vars))
@@ -34,6 +36,8 @@ class LogReg:
                 self.weights[:,i] = self.weights[:,i] - self.lr*np.sum(np.multiply(updater,req_x))
     def predict(self,test):
         pred_list = []
+        test_bias = np.ones(shape=(test.shape[0],1))
+        test = np.append(test, test_bias, axis=1)
 
         tx_pred = self.weights.dot(test.transpose())
         h_pred = 1 / (1 + np.exp(-tx_pred))
@@ -65,8 +69,9 @@ def main():
     print(lc.data)
     lc.train(1500)
     print(lc.weights.shape)
-    #pred = lc.predict(np.array(df.iloc[:,:2],dtype=np.float128))
-    #print(lc.check_accuracy(pred,list(df.iloc[:,2])))
+    pred = lc.predict(np.array(df.iloc[:,:2],dtype=np.float128))
+    print(lc.check_accuracy(pred,list(df.iloc[:,2])))
+    print(pred)
 
 if __name__=="__main__":
     main()
