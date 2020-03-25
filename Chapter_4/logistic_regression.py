@@ -66,12 +66,17 @@ def main():
     df.columns = ["1", "2", "3"]
     lc = LogReg()
     lc.fit(np.array(df.iloc[:,:2],dtype=np.float128),np.array(df.iloc[:,2],dtype=np.float128))
-    print(lc.data)
+    #pred = lc.predict(np.array(df.iloc[:,:2],dtype=np.float128))
+    #print(lc.check_accuracy(pred,list(df.iloc[:,2])))
+    #print(pred)
+
+    ### Test Dataset ###
+    test_data = pd.read_csv("test_set.txt",sep="\t")
+    lc.fit(np.array(test_data.iloc[:-7,:-1]),np.array(test_data.iloc[:-7,-1]))
     lc.train(1500)
-    print(lc.weights.shape)
-    pred = lc.predict(np.array(df.iloc[:,:2],dtype=np.float128))
-    print(lc.check_accuracy(pred,list(df.iloc[:,2])))
-    print(pred)
+    pred = lc.predict(np.array(test_data.iloc[92:,:-1]))
+    print(lc.check_accuracy(pred, list(test_data.iloc[92:, -1])))
+
 
 if __name__=="__main__":
     main()
