@@ -13,8 +13,12 @@ class LogReg:
         self.labels = labels
 
     def train(self,epochs):
+        bias = np.ones(shape=(self.data.shape[0],1))
+        self.data = np.append(self.data,bias,axis=1)
         num_vars = len(self.data[0])
+
         self.weights = np.ones(shape=(1,num_vars))
+
         for epoch in range(epochs):
 
             theta_x = self.weights.dot(self.data.transpose())
@@ -58,10 +62,11 @@ def main():
     df.columns = ["1", "2", "3"]
     lc = LogReg()
     lc.fit(np.array(df.iloc[:,:2],dtype=np.float128),np.array(df.iloc[:,2],dtype=np.float128))
+    print(lc.data)
     lc.train(1500)
-    print(lc.weights)
-    pred = lc.predict(np.array(df.iloc[:,:2],dtype=np.float128))
-    print(lc.check_accuracy(pred,list(df.iloc[:,2])))
+    print(lc.weights.shape)
+    #pred = lc.predict(np.array(df.iloc[:,:2],dtype=np.float128))
+    #print(lc.check_accuracy(pred,list(df.iloc[:,2])))
 
 if __name__=="__main__":
     main()
