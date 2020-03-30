@@ -6,5 +6,5 @@ class Layer:
         self.num_nodes = None
         self.weights = None
         self.bias = None
-
+        self.activation = None
 
